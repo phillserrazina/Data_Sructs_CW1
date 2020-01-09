@@ -3,9 +3,10 @@ using namespace std;
 
 class Node {
 public:
-	Node(int i, Node* nextptr, int currentPriority=0) {
-		val = i;
+	Node(int value, Node* nextptr = NULL, Node* prevptr = NULL, int currentPriority = 0) {
+		val = value;
 		next = nextptr;
+		prev = prevptr;
 		priority = currentPriority;
 	}
 
@@ -35,30 +36,17 @@ public:
 	Stack() { top = nullptr; }
 	~Stack() {}
 
-	void push(int i) {
-		Node* tmp = new Node(i, top);
+	void Push(int value) {
+		Node* tmp = new Node(value, top);
 		top = tmp;
 	}
 
-	int pop() {
+	int Pop() {
 		int ret = top->getVal();
 		Node* tmp = top;
 		top = top->getNext();
 		delete tmp;
 		return ret;
-	}
-
-	void print() {
-		Node* counter = top;
-		cout << "Stack Values: {";
-
-		while (counter != nullptr) {
-			if (counter->getNext() != nullptr) cout << counter->getVal() << ", ";
-			else cout << counter->getVal();
-			counter = counter->getNext();
-		}
-
-		cout << "}";
 	}
 
 private:
@@ -70,23 +58,7 @@ protected:
 	Node* back;
 	Node* front;
 
-public:
-	Queue(void) { front = back = nullptr; }
-	~Queue(void) {
-		while (front != nullptr) { delete NodeDequeue(); }
-	}
-
-	void Enqueue(int val) {
-		Node* tmp = new Node(val, back);
-		back = tmp;
-		if (front == nullptr) front = back;
-		else {
-			tmp = back->getNext();
-			tmp->setPrev(back);
-		}
-	}
-
-	Node* NodeDequeue(void) {
+	virtual Node* NodeDequeue(void) {
 		Node* tmp = front;
 		if (front != nullptr) {
 			front = front->getPrev();
@@ -95,53 +67,14 @@ public:
 		return tmp;
 	}
 
-	int Dequeue(void) {
-		Node* tmp = NodeDequeue();
-		int ret = tmp->getVal();
-		if (front == nullptr) back = front;
-		return ret;
-	}
-
-	void printFrontToBack() {
-		Node* counter = front;
-		cout << "Queue Values (Front to Back): {";
-
-		while (counter != nullptr) {
-			if (counter->getPrev() != nullptr) cout << counter->getVal() << ", ";
-			else cout << counter->getVal();
-			counter = counter->getPrev();
-		}
-
-		cout << "}";
-	}
-
-	void printBackToFront() {
-		Node* counter = back;
-		cout << "Queue Values (Back to Front): {";
-
-		while (counter != nullptr) {
-			if (counter->getNext() != nullptr) cout << counter->getVal() << ", ";
-			else cout << counter->getVal();
-			counter = counter->getNext();
-		}
-
-		cout << "}";
-	}
-};
-
-class PriorityQueue {
-protected:
-	Node* back;
-	Node* front;
-
 public:
-	PriorityQueue(void) { front = back = nullptr; }
-	~PriorityQueue(void) {
+	Queue(void) { front = back = nullptr; }
+	~Queue(void) {
 		while (front != nullptr) { delete NodeDequeue(); }
 	}
 
 	void Enqueue(int val, int priority=0) {
-		Node* tmp = new Node(val, back, priority);
+		Node* tmp = new Node(val, back, NULL, priority);
 		back = tmp;
 		if (front == nullptr) front = back;
 		else {
@@ -150,6 +83,16 @@ public:
 		}
 	}
 
+	int Dequeue(void) {
+		Node* tmp = NodeDequeue();
+		int ret = tmp->getVal();
+		if (front == nullptr) back = front;
+		return ret;
+	}
+};
+
+class Scheduler : public Queue {
+protected:
 	Node* NodeDequeue(void) {
 		Node* tmp = front;
 		Node* currentHighestNode = tmp;
@@ -182,43 +125,10 @@ public:
 
 		return currentHighestNode;
 	}
-
-	int Dequeue(void) {
-		Node* tmp = NodeDequeue();
-		int ret = tmp->getVal();
-		if (front == nullptr) back = front;
-		return ret;
-	}
-
-	void printFrontToBack() {
-		Node* counter = front;
-		cout << "Queue Values (Front to Back): {";
-
-		while (counter != nullptr) {
-			if (counter->getPrev() != nullptr) cout << counter->getVal() << ", ";
-			else cout << counter->getVal();
-			counter = counter->getPrev();
-		}
-
-		cout << "}";
-	}
-
-	void printBackToFront() {
-		Node* counter = back;
-		cout << "Queue Values (Back to Front): {";
-
-		while (counter != nullptr) {
-			if (counter->getNext() != nullptr) cout << counter->getVal() << ", ";
-			else cout << counter->getVal();
-			counter = counter->getNext();
-		}
-
-		cout << "}";
-	}
 };
 
 int main() {
-	PriorityQueue numbers;
+	Scheduler numbers;
 
 	numbers.Enqueue(10, 8);
 	numbers.Enqueue(20, 2);
