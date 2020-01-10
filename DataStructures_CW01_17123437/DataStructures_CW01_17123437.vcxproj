@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1859A516-080E-437D-A24E-292F29273A3B}</ProjectGuid>
-    <RootNamespace>DataStructures_Stack_And_Queue</RootNamespace>
+    <ProjectGuid>{6C9C01B5-1065-4C4F-BC2C-B1C122902C41}</ProjectGuid>
+    <RootNamespace>DataStructures_CW01_17123437</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
