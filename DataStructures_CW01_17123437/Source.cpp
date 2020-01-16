@@ -50,6 +50,23 @@ public:
 		top = tmp;
 	}
 
+	Node* NodePop() {
+		// Get the front node
+		Node* tmp = top;
+		// If the front exists
+		if (top != nullptr) {
+			// Set the new front to be the next node
+			top = top->getNext();
+			// If there is a next node, point it's next node to a nullptr
+			if (top != nullptr) top->setPrev(nullptr);
+		}
+		// If the front node doesn't exist, throw an error.
+		else throw "Empty Queue";
+
+		// Return the found value
+		return tmp;
+	}
+
 	// Removes and returns the element currently at the top of the Stack.
 	int Pop() {
 		// Check if the current node exists. If it doesn't, throw an error.
@@ -58,10 +75,7 @@ public:
 		// Get the value to be returned from the top node
 		int ret = top->getVal();
 		// Get the top node
-		Node* tmp = top;
-
-		// Set the next node to be the new top
-		top = top->getNext();
+		Node* tmp = NodePop();
 
 		// Clean the tmp node pointer from memory and return the desired value.
 		delete tmp;
